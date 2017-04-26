@@ -102,6 +102,36 @@ client.on('presenceUpdate', (member, oldMember) => {
 	}
 });
 
+function shutdown(graceful) {
+	// Stop updating
+	ready = false;
+
+	// Exit now
+	if(!graceful) {
+		process.exit();
+	}
+
+	// Save everything, then exit
+	else {
+		let promises = [];
+		db.beginTransaction().then(() => {
+			client.guilds.forEach((guild) => {
+				guild.members.forEach((member) => {
+					promises.push(db.updateMember(member));
+				});
+			});
+		});
+
+		Promise.all(promises).then(() => {
+			db.endTransaction().then(() => {
+				process.exit();
+			});
+		}).catch((err) => {
+			throw err;
+		});
+	}
+}
+
 function saveMembers(mod) {
 	let promises = []
 	db.beginTransaction().then(() => {
