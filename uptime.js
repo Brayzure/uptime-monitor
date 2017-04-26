@@ -16,10 +16,22 @@ const config = require('./src/config.json');
 const db = require('./external/db.js');
 
 /*
+* CONSTANTS
+*/
+const second = 1e3;
+const minute = 60*second;
+const hour = 60*hour;
+const day = 24*day;
+const week = 7*day;
+const month = 30*day;
+const year = 365*day;
+
+/*
 * SESSION VARIABLES
 */
 let ready = false;
 let mod = 0;
+let updateInterval = setInterval(saveMembers, 6*minute);
 
 var client = new Eris(auth.token, {
 	getAllUsers: true,
