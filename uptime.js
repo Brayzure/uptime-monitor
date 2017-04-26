@@ -20,8 +20,8 @@ const db = require('./external/db.js');
 */
 const second = 1e3;
 const minute = 60*second;
-const hour = 60*hour;
-const day = 24*day;
+const hour = 60*minute;
+const day = 24*hour;
 const week = 7*day;
 const month = 30*day;
 const year = 365*day;
